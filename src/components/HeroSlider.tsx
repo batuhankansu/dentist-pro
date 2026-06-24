@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Calendar, Phone } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, Phone, Stethoscope, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const slides = [
@@ -12,6 +12,7 @@ const slides = [
     subtitle: "Uzman kadromuz ve modern teknolojilerimizle diş sağlığınızı koruyoruz.",
     cta: "Randevu Al",
     ctaLink: "/randevu",
+    icon: Calendar,
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const slides = [
     subtitle: "En son diş hekimliği teknolojileri ile konforlu tedavi.",
     cta: "Hizmetlerimiz",
     ctaLink: "/hakkimizda",
+    icon: Sparkles,
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const slides = [
     subtitle: "Her biri alanında uzman doktorlarımızla tanışın.",
     cta: "Doktorlarımız",
     ctaLink: "/doktorlar",
+    icon: Stethoscope,
   },
 ];
 
@@ -86,7 +89,7 @@ export function HeroSlider() {
                     href={slide.ctaLink}
                     className="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-medium transition-colors"
                   >
-                    <Calendar className="h-5 w-5" />
+                    <slide.icon className="h-5 w-5" />
                     {slide.cta}
                   </Link>
                   <a
