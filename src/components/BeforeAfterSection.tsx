@@ -32,12 +32,20 @@ export function BeforeAfterSection() {
     () => Object.fromEntries(beforeAfterCases.map((c) => [c.id, 50]))
   );
 
+  const getPercentage = useCallback((clientX: number, rect: DOMRect) => {
+    const x = clientX - rect.left;
+    return Math.max(0, Math.min(100, (x / rect.width) * 100));
+  }, []);
+
   const handleSliderMove = useCallback((id: number, e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPositions((prev) => ({ ...prev, [id]: percentage }));
-  }, []);
+    setSliderPositions((prev) => ({ ...prev, [id]: getPercentage(e.clientX, rect) }));
+  }, [getPercentage]);
+
+  const handleTouchMove = useCallback((id: number, e: React.TouchEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSliderPositions((prev) => ({ ...prev, [id]: getPercentage(e.touches[0].clientX, rect) }));
+  }, [getPercentage]);
 
   return (
     <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
@@ -62,7 +70,9 @@ export function BeforeAfterSection() {
               <div key={testCase.id} className="space-y-4">
                 <div
                   className="relative rounded-2xl overflow-hidden cursor-ew-resize aspect-[4/3]"
+                  style={{ touchAction: "none" }}
                   onMouseMove={(e) => handleSliderMove(testCase.id, e)}
+                  onTouchMove={(e) => handleTouchMove(testCase.id, e)}
                 >
                   {/* After Image (Background) */}
                   <img
